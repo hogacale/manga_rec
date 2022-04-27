@@ -8,14 +8,48 @@ import './App.css'
 import FeedbackPopup from './components/FeedbackPopup'
 import Button from "react-bootstrap/Button";
 
+/*
+Hierarchy of this page
+
+- SearchMangaTable
+    - SearchBar
+    - MangaTable
+        - MangaRow
+
+In react you create components which can/will house other components.
+These components are the building blocks of react.
+In this example SearchMangaTable is the common parent for all the tables.
+It will house all the common elements and variables used needed by multiple components.
+For example it holds the manga to be displayed, which page the table is on, and the searchQuery(this one might not be necessary).
+NOTE:
+    When you call a react component you call it as a html tag EX. <SearchBar />
+    You pass parameters to these components by adding it as a html property
+        Ex. <SearchBar
+             searchQuery={this.state.searchQuery}
+             onSearchTextChange={this.handleSearchQueryChange}
+             onSearchButtonClick={this.handleSearchButtonClick}/>
+       In this example the variable search query is set to the state variable searchQuery
+       onSearchTextChange is set to the function(needs to be .bind(ed)) on SearchTextChange to handleSearchQuery inside of parent object.
+       You access these parameters using the this.props.<Parameter name>
+NOTE 2:
+When state get updated it updates everything related to that state(Reruns the code) and "refreshes" the page
+                This refresh is not actually a full page refresh
+ */
+
+//This is the component for each row in the search table
 class MangaRow extends React.Component {
     constructor(props) {
         super(props);
         this.interest = null;
+        //References allow you to access html elements outside of functions called by that element
+        //This example it is the <td> element for the row.
+        //It is used to tell the manga hover element who its parent is(Where it should place itself)
         this.myRef = React.createRef();
         this.state = {
+            //Used to determine if the overlay will be shown
             show: false,
             target: this.myRef,
+            //Timeout function(Set onHover)
             timeout: null,
             manga: null,
             hovering: false,
@@ -23,6 +57,7 @@ class MangaRow extends React.Component {
             interest: null,
         };
         // console.log(this.state.target.current);
+        //These lines bind the functions to the object, allowing them to be called by html elements
         this.handleMangaImageOnMouseEnter = this.handleMangaImageOnMouseEnter.bind(this);
         this.handleMangaImageOnMouseLeave = this.handleMangaImageOnMouseLeave.bind(this);
         this.handleFeedbackModalClose = this.handleFeedbackModalClose.bind(this);
@@ -34,6 +69,7 @@ class MangaRow extends React.Component {
 
     handleMangaImageOnMouseEnter(e) {
         e.preventDefault()
+        //Sets show to true and sets the manga to be shown after a time of 400ms
         if (!this.state.hovering) {
             const timer = setTimeout(() => {
                 const id = this.props.manga.id;
@@ -58,8 +94,10 @@ class MangaRow extends React.Component {
 
     handleMangaImageOnMouseLeave(e){
         const timeout = this.state.timeout;
+        //Stops the timer, so that the overlay does not show
         clearTimeout(this.state.timeout);
         // console.log(this.state.manga)
+        //If the overlay is showing hides it(set show to false)
         setTimeout(() => {
             this.setState({
                 show: false,
@@ -111,6 +149,7 @@ class MangaRow extends React.Component {
         // console.log(picture);
         return (
             <tr>
+                {/*ref={} sets a reference object to this html element*/}
                 <td ref={this.myRef} className={""}>
                     <img src={picture} alt={picture} width="42" height="62" onMouseEnter={this.handleMangaImageOnMouseEnter} onMouseLeave={this.handleMangaImageOnMouseLeave}/>
                     <HoverMangaInfo
@@ -140,14 +179,17 @@ class MangaRow extends React.Component {
     }
 }
 
+//This component is the Table which holds the manga rows
 class MangaTable extends React.Component {
 
     render() {
+        //This will be set to the html for the table
         const rows = [];
         let lastCategory = null;
 
         if(this.props.manga !== null) {
             // let Manga = this.props.manga[0];
+            //Sets each row to the MangaRow html
             this.props.manga.forEach((manga) => {
                 rows.push(
                     <MangaRow
@@ -173,6 +215,7 @@ class MangaTable extends React.Component {
     }
 }
 
+//This is the actual search bar element
 class SearchBar extends React.Component {
     constructor(props){
         super(props);
@@ -189,7 +232,8 @@ class SearchBar extends React.Component {
         e.preventDefault();
         this.props.onSearchTextChange(e.target.value);
     }
-
+    //The value of the <input> is a state.
+    //This means that in order for it to work it must change with the onChange function
     render() {
         return (
             <form>
@@ -200,6 +244,7 @@ class SearchBar extends React.Component {
     }
 }
 
+//This is the parent component which houses global functions and variables
 class SearchMangaTable extends React.Component {
     constructor(props) {
         super(props);
@@ -211,6 +256,7 @@ class SearchMangaTable extends React.Component {
             pages: 0,
             page: 0
         };
+        //This fetch calls the intial api call
         fetch(`http://localhost:8080/api/search?query=%%&page=0&limit=25`)
             .then((response)=>response.json())
             .then((responseJson)=>{this.setState({
@@ -230,6 +276,8 @@ class SearchMangaTable extends React.Component {
 
     async handlePageChange(e){
         console.log("Changing to page",e);
+        // This is probably unecessary as the .then does the wait itself.
+        //Though since it works I don't want to change it
         const json = await this.getJSON(this.state.searchQuery,parseInt(e)+1);
         this.setState({
             manga: json[0],

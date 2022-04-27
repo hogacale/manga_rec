@@ -12,6 +12,7 @@ class FeedbackPopup extends React.Component {
 
     }
 
+    //Chooses to not save the interest level
     onClickClose(e){
         this.props.handleClose(e);
     }

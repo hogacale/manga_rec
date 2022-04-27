@@ -8,6 +8,7 @@ import "./filter.css"
 class FilterTable extends React.Component{
     constructor(props) {
         super(props);
+        //Constants
         this.ccTMin = 1;
         this.ccTMax = 6477;
         this.pTMin = 1;
@@ -49,6 +50,7 @@ class FilterTable extends React.Component{
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    //Data formatting
     handleSubmit(e){
         console.log("Submitting")
         let message = [];
@@ -86,6 +88,8 @@ class FilterTable extends React.Component{
     }
 
     handleThemeChangeEx(e){
+        //This function is non destructive way to update a specific element in the state array
+        //Set tempSelected to a copy of the state
         let tempSelected = this.state.themeSelectedEx;
         let item = tempSelected[e.target.id];
         item = !item;
@@ -158,6 +162,7 @@ class FilterTable extends React.Component{
     }
 
     handleRDMinimumChange(e){
+        //Do not really know how this function actually works
         const value = Math.min(+e.target.value, this.state.rdMax -1 );
         this.setState({
             rdMin: value,

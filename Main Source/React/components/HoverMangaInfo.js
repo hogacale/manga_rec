@@ -4,6 +4,7 @@ import Overlay from "react-bootstrap/Overlay"
 import Button from "react-bootstrap/Button"
 import "./HoverMangaInfo.css"
 
+//This onject just holds the html for the overlay
 class MangaInfoHolder extends React.Component{
     constructor(props) {
         super(props);
@@ -56,6 +57,7 @@ class MangaInfoHolder extends React.Component{
     }
 }
 
+//This function deals with all the logic and such to display the overlay
 export default function HoverMangaInfo(props) {
     // const [show, setShow] = useState(false);
     const target = useRef();
@@ -64,11 +66,10 @@ export default function HoverMangaInfo(props) {
     // console.log(props.target);
     return(
         <>
+            {/*props.target is a reference created on the search.js page*/}
             <Overlay target={props.target} show={props.show} placement="right-start">
-                {/*Not entirely sure what this line actually does*/}
                 {({ placement, arrowProps, show: _show, popper, ...props}) => (
                 <div
-
                     {...props}
                     style={{
                         position: 'absolute',
