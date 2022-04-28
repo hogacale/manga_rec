@@ -22,7 +22,12 @@ export default class MultiSelectDropdown extends React.Component{
     }
 
     handleOnCheckChange(e,p){
-        this.props.onChange(e);
+        if(e._reactName !== "onChange") {
+            this.props.onChange(e);
+            return;
+        }
+        e.target.checked = this.props.selected[e.target.id];
+        // console.log(this.props.selected);
     }
 
     render(){
@@ -39,6 +44,7 @@ export default class MultiSelectDropdown extends React.Component{
                         id={count}
                     >
                         <input
+                            key={Math.random()}
                             className={"me-2"}
                             type="checkbox"
                             checked={this.props.selected[count]}
