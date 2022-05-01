@@ -1,0 +1,20 @@
+.my-component {
+    background-color: #282c34;
+    /*background-color: #20123c;*/
+}
+#popup {
+    width: 30em;
+}
+.midSection {
+    background-color: darkgrey;
+    /*background-color: #55417b;*/
+}
+div.description{
+    height: 8em;
+}
+.description {
+    -webkit-line-clamp: 3;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
