@@ -3,6 +3,7 @@ import MultiRangeSlider from './components/MultiRangeSlider'
 import MultiSelectDropdown from "./components/MultiSelectDropdown";
 import Button from "react-bootstrap/Button";
 import "./filter.css"
+// import RecommendTable from "./Recommender";
 
 
 class FilterTable extends React.Component{
@@ -84,7 +85,10 @@ class FilterTable extends React.Component{
 
         const toPython = JSON.stringify(message);
         console.log(toPython);
-        alert(toPython);
+        // alert(toPython);
+        let url = new URL("http://localhost:3000/recommend");
+        url.searchParams.set('filters',toPython);
+        window.location.href = url;
     }
 
     handleThemeChangeEx(e){
@@ -196,125 +200,125 @@ class FilterTable extends React.Component{
 
     render(){
         return(
-            <div>
-                <table>
-                    <tr height="85px" >
-                        <h5>Popularity</h5>
-                        <MultiRangeSlider
-                            tMax={this.pTMax}
-                            tMin={this.pTMin}
-                            min={this.state.pMin}
-                            max={this.state.pMax}
-                            handleMinimumChange={this.handlePMinimumChange}
-                            handleMaximumChange={this.handlePMaximumChange}
-                        />
-                    </tr>
-                    <tr height="85px">
-                        <h5>Release Date</h5>
-                        <MultiRangeSlider
-                            tMax={this.rdTMax}
-                            tMin={this.rdTMin}
-                            min={this.state.rdMin}
-                            max={this.state.rdMax}
-                            handleMinimumChange={this.handleRDMinimumChange}
-                            handleMaximumChange={this.handleRDMaximumChange}
-                        />
-                    </tr>
-                    <tr height="85px">
-                        <h5>Chapter Count</h5>
-                        <MultiRangeSlider
-                            tMax={this.ccTMax}
-                            tMin={this.ccTMin}
-                            min={this.state.ccMin}
-                            max={this.state.ccMax}
-                            handleMinimumChange={this.handleCCMinimumChange}
-                            handleMaximumChange={this.handleCCMaximumChange}
-                        />
-                    </tr>
-                    <tr height="100px">
-                        <td>
-                        <h5>Genre [Include]</h5>
-                            <div>
+            <div >
+                    <table>
+                        <tr height="85px" >
+                            <h5>Popularity</h5>
+                            <MultiRangeSlider
+                                tMax={this.pTMax}
+                                tMin={this.pTMin}
+                                min={this.state.pMin}
+                                max={this.state.pMax}
+                                handleMinimumChange={this.handlePMinimumChange}
+                                handleMaximumChange={this.handlePMaximumChange}
+                            />
+                        </tr>
+                        <tr height="85px">
+                            <h5>Release Date</h5>
+                            <MultiRangeSlider
+                                tMax={this.rdTMax}
+                                tMin={this.rdTMin}
+                                min={this.state.rdMin}
+                                max={this.state.rdMax}
+                                handleMinimumChange={this.handleRDMinimumChange}
+                                handleMaximumChange={this.handleRDMaximumChange}
+                            />
+                        </tr>
+                        <tr height="85px">
+                            <h5>Chapter Count</h5>
+                            <MultiRangeSlider
+                                tMax={this.ccTMax}
+                                tMin={this.ccTMin}
+                                min={this.state.ccMin}
+                                max={this.state.ccMax}
+                                handleMinimumChange={this.handleCCMinimumChange}
+                                handleMaximumChange={this.handleCCMaximumChange}
+                            />
+                        </tr>
+                        <tr height="100px">
+                            <td>
+                            <h5>Genre [Include]</h5>
+                                <div>
+                                    <MultiSelectDropdown
+                                        type={"Genre"}
+                                        list={this.state.genres}
+                                        selected={this.state.genreSelected}
+                                        onChange={this.handleGenreChange}
+                                        handleOnUnselect={this.handleGenreChange}
+                                    />
+                                </div>
+                            </td>
+                            <td>
+                                <h5>Genre [Exclude]</h5>
                                 <MultiSelectDropdown
                                     type={"Genre"}
                                     list={this.state.genres}
-                                    selected={this.state.genreSelected}
-                                    onChange={this.handleGenreChange}
-                                    handleOnUnselect={this.handleGenreChange}
+                                    selected={this.state.genreSelectedEx}
+                                    onChange={this.handleGenreChangeEx}
+                                    handleOnUnselect={this.handleGenreChangeEx}
                                 />
-                            </div>
-                        </td>
-                        <td>
-                            <h5>Genre [Exclude]</h5>
-                            <MultiSelectDropdown
-                                type={"Genre"}
-                                list={this.state.genres}
-                                selected={this.state.genreSelectedEx}
-                                onChange={this.handleGenreChangeEx}
-                                handleOnUnselect={this.handleGenreChangeEx}
-                            />
-                        </td>
-                    </tr>
-                    <tr height="100px">
-                        <td>
-                            <div>
-                                <h5>Theme [Include]</h5>
+                            </td>
+                        </tr>
+                        <tr height="100px">
+                            <td>
+                                <div>
+                                    <h5>Theme [Include]</h5>
+                                    <MultiSelectDropdown
+                                        type={"Theme"}
+                                        list={this.state.themes}
+                                        selected={this.state.themeSelected}
+                                        onChange={this.handleThemeChange}
+                                        handleOnUnselect={this.handleThemeChange}
+                                    />
+                                </div>
+                            </td>
+                            <td>
+                                <h5>Theme [Exclude]</h5>
                                 <MultiSelectDropdown
                                     type={"Theme"}
                                     list={this.state.themes}
-                                    selected={this.state.themeSelected}
-                                    onChange={this.handleThemeChange}
-                                    handleOnUnselect={this.handleThemeChange}
+                                    selected={this.state.themeSelectedEx}
+                                    onChange={this.handleThemeChangeEx}
+                                    handleOnUnselect={this.handleThemeChangeEx}
                                 />
-                            </div>
-                        </td>
-                        <td>
-                            <h5>Theme [Exclude]</h5>
-                            <MultiSelectDropdown
-                                type={"Theme"}
-                                list={this.state.themes}
-                                selected={this.state.themeSelectedEx}
-                                onChange={this.handleThemeChangeEx}
-                                handleOnUnselect={this.handleThemeChangeEx}
-                            />
-                        </td>
-                    </tr>
-                    <tr height="100px">
-                        <td>
-                            <h5>Demographic [Include]</h5>
-                            <MultiSelectDropdown
-                                type={"Demographic"}
-                                list={this.state.demographics}
-                                selected={this.state.demographicsSelected}
-                                onChange={this.handleDemoChange}
-                                handleOnUnselect={this.handleDemoChange}
-                            />
-                        </td>
-                        <td>
-                            <h5>Demographic [Exclude]</h5>
-                            <MultiSelectDropdown
-                                type={"Demographic"}
-                                list={this.state.demographics}
-                                selected={this.state.demographicsSelectedEx}
-                                onChange={this.handleDemoChangeEx}
-                                handleOnUnselect={this.handleDemoChangeEx}
-                            />
-                        </td>
-                    </tr>
-                    <tr height="100px">
-                        <td>
-                            <h5>Status [Exclude]</h5>
-                            <MultiSelectDropdown
-                                type={"Status"}
-                                list={this.state.mangaStatus}
-                                selected={this.state.selectedStatus}
-                                onChange={this.handleStatusChange}
-                                handleOnUnselect={this.handleStatusChange}
-                            />
-                        </td>
-                    </tr>
-                </table>
-                <Button as="input" type="submit" value="Apply Filters" onClick={this.handleSubmit}/>
+                            </td>
+                        </tr>
+                        <tr height="100px">
+                            <td>
+                                <h5>Demographic [Include]</h5>
+                                <MultiSelectDropdown
+                                    type={"Demographic"}
+                                    list={this.state.demographics}
+                                    selected={this.state.demographicsSelected}
+                                    onChange={this.handleDemoChange}
+                                    handleOnUnselect={this.handleDemoChange}
+                                />
+                            </td>
+                            <td>
+                                <h5>Demographic [Exclude]</h5>
+                                <MultiSelectDropdown
+                                    type={"Demographic"}
+                                    list={this.state.demographics}
+                                    selected={this.state.demographicsSelectedEx}
+                                    onChange={this.handleDemoChangeEx}
+                                    handleOnUnselect={this.handleDemoChangeEx}
+                                />
+                            </td>
+                        </tr>
+                        <tr height="100px">
+                            <td>
+                                <h5>Status [Exclude]</h5>
+                                <MultiSelectDropdown
+                                    type={"Status"}
+                                    list={this.state.mangaStatus}
+                                    selected={this.state.selectedStatus}
+                                    onChange={this.handleStatusChange}
+                                    handleOnUnselect={this.handleStatusChange}
+                                />
+                            </td>
+                        </tr>
+                    </table>
+                    <Button as="input" type="submit" value="Apply Filters" onClick={this.handleSubmit}/>
             </div>
         )
     }

@@ -1,8 +1,9 @@
-import React from "react";
+import React, {useState} from "react";
 import {Nav, NavLink} from "react-bootstrap";
 import {Link} from "react-router-dom";
 
 export default function Navbar () {
+    const[filter, setFilter] = useState(0);
     return (
             <div className="navigation">
                 <Nav className="navbar navbar-expand navbar-dark bg-dark">
@@ -18,8 +19,13 @@ export default function Navbar () {
                                     </Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link" to="/filter" >
+                                    <Link className="nav-link" to="/filter">
                                         Filter
+                                    </Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link" to="/recommend">
+                                        Recommender
                                     </Link>
                                 </li>
                             </ul>

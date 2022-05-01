@@ -7,6 +7,7 @@ import Navbar from "./Navbar/index";
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import FilterTable from "./Filter";
 import SearchMangaTable from "./Search";
+import RecommendTable from './Recommender'
 
 const container = document.getElementById('root');
 const root = createRoot(container);
@@ -18,6 +19,10 @@ root.render(
         <Routes>
             <Route path='/' element={<SearchMangaTable />} />
             <Route path='filter' element={<FilterTable />} />
+            <Route path='recommend' element={<RecommendTable
+                filters="[[1,27691],[1946,2022],[1,6477],[false,false,false,false],[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false],[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false],[false,false,false,false,false],[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false],[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false],[false,false,false,false,false]]"
+                load={true}
+            />} />
         </Routes>
     </Router>
 )
