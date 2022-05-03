@@ -143,8 +143,8 @@ class MangaRow extends React.Component {
         if(!manga.pictureLink)
             temp = "http://thumbs.dreamstime.com/b/default-avatar-profile-icon-grey-photo-placeholder-102846161.jpg";
         else
-            temp = manga.pictureLink.substring(1, manga.pictureLink.length - 2);
-        const title = this.props.manga.title.substring(1, this.props.manga.title.length -1);
+            temp = manga.pictureLink;
+        const title = this.props.manga.title;
         const picture = temp;
         // console.log(picture);
         return (

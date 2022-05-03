@@ -1,7 +1,6 @@
 const express = require('express');
 const mysql = require('mysql');
 const app = express();
-const {spawn} = require('child_process');
 app.use(express.json());
 const cors = require("cors")
 app.use(cors())
@@ -69,25 +68,6 @@ app.post('/api/manga/interest', function(req,res) {
         ], function (err,result,field) {
         if (err) throw err;
         res.send(JSON.stringify(result));
-    });
-});
-
-app.post('/api/manga/recommend', function(req,res){
-    console.log('User of ' + req.body.userId + " is getting recommendations with filters " + req.body.filters);
-    let dataToSend;
-
-    const python = spawn('python', ['mangaRecommender/recommender.py', req.body.userId, req.body.filters]);
-    // const python = spawn('python', ['mangaRecommender/HelloWorld.py', "1", filters]);
-
-    python.stdout.on('data', function (data) {
-       dataToSend = data;
-    });
-    // python.stdout.on('data', data => {
-    //    console.error(`stderr: ${data}`);
-    // });
-    python.on('exit', (code) => {
-       console.log(`child process exited with code ${code}, ${dataToSend}`);
-       res.send(dataToSend);
     });
 });
 
