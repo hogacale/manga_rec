@@ -4,6 +4,7 @@ import HoverMangaInfo from "./components/HoverMangaInfo";
 import Button from "react-bootstrap/Button";
 import FeedbackPopup from "./components/FeedbackPopup";
 import FilterTable from "./Filter";
+import {Link} from "react-router-dom";
 
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
@@ -154,6 +155,10 @@ class MangaRow extends React.Component {
         //  TODO update database
     }
 
+    redirectToManga(e){
+        console.log("test");
+    }
+
     render() {
         const manga = this.props.manga;
         let temp = "";
@@ -175,9 +180,11 @@ class MangaRow extends React.Component {
                             />
                             {/*<p hidden={this.state.hidden}>This is some placeholder text</p>*/}
                         </td>
-                        <td className={"text-truncate "}>
-                            {manga.title}
-                        </td>
+                            <td className={"text-truncate "} onClick={this.redirectToManga} id={manga.id}>
+                                <Link to={`/manga/${manga.id}`}>
+                                    {manga.title}
+                                </Link>
+                            </td>
                         <td>
                             <Button onClick={this.handleFeedbackModalOpen}>Give feedback</Button>
                             <FeedbackPopup

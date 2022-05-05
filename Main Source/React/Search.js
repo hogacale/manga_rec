@@ -7,6 +7,7 @@ import PageList from './components/PageList'
 import './App.css'
 import FeedbackPopup from './components/FeedbackPopup'
 import Button from "react-bootstrap/Button";
+import {Link} from "react-router-dom";
 
 /*
 Hierarchy of this page
@@ -159,9 +160,11 @@ class MangaRow extends React.Component {
                     />
                     {/*<p hidden={this.state.hidden}>This is some placeholder text</p>*/}
                 </td>
-                <td className={"text-truncate "}>
-                    {title}
-                </td>
+                    <td className={"text-truncate "}>
+                        <Link to={`/manga/${manga.id}`}>
+                        {title}
+                        </Link>
+                    </td>
                 <td>
                     <Button onClick={this.handleFeedbackModalOpen}>Give feedback</Button>
                     <FeedbackPopup
@@ -257,39 +260,55 @@ class SearchMangaTable extends React.Component {
             page: 0
         };
         //This fetch calls the intial api call
-        fetch(`http://localhost:8080/api/search?query=%%&page=0&limit=25`)
-            .then((response)=>response.json())
-            .then((responseJson)=>{this.setState({
-                manga: responseJson[0],
-                pages: Math.ceil(responseJson[1][0].numResult / 25),
-            })});
+        const article ={
+            page: 1,
+            limit: 25,
+            query: '%%',
+        }
+        axios.post('http://localhost:8080/api/search', article)
+            .then(response => this.setState({
+                manga: response.data[0],
+                pages: Math.ceil(response.data[1][0].numResult / 25),
+            }));
+
         this.handleSearchButtonClick = this.handleSearchButtonClick.bind(this);
         this.handleSearchQueryChange = this.handleSearchQueryChange.bind(this);
         this.handlePageChange = this.handlePageChange.bind(this);
     }
 
     async getJSON(search,page) {
-        return fetch(`http://localhost:8080/api/search?query=%${search}%&page=${page}&limit=25`)
-            .then((response)=>response.json())
-            .then((responseJson)=>{return responseJson});
+        const article ={
+            page: page,
+            limit: 25,
+            query: '%' + search + '%',
+        }
+        axios.post('http://localhost:8080/api/search', article)
+            .then(response => this.setState({
+                manga: response.data[0],
+                pages: Math.ceil(response.data[1][0].numResult / 25),
+            }));
     }
 
     async handlePageChange(e){
         console.log("Changing to page",e);
         // This is probably unecessary as the .then does the wait itself.
         //Though since it works I don't want to change it
-        const json = await this.getJSON(this.state.searchQuery,parseInt(e)+1);
-        this.setState({
-            manga: json[0],
-            page: parseInt(e),
-            pages: Math.ceil(json[1][0].numResult / 25),
-        });
+        const article ={
+            page: parseInt(e)+1,
+            limit: 25,
+            query: '%' + this.state.searchQuery + '%',
+        }
+        axios.post('http://localhost:8080/api/search', article)
+            .then(response => this.setState({
+                manga: response.data[0],
+                pages: Math.ceil(response.data[1][0].numResult / 25),
+            }));
         // console.log("New State",this.state,"JSON",json);
     }
 
     //This eventually will be the search preview
     handleSearchQueryChange(searchQuery){
-        console.log(searchQuery);
+        // console.log(searchQuery);
         this.setState({
             searchQuery: searchQuery
             //  TODO Query API
@@ -303,12 +322,16 @@ class SearchMangaTable extends React.Component {
             pages: 0,
         });
 
-        const json = await this.getJSON(searchQuery,0);
-        console.log(json[1][0].numResult);
-        this.setState({
-            manga: json[0],
-            pages: Math.ceil(json[1][0].numResult / 25),
-        });
+        const article ={
+            page: 1,
+            limit: 25,
+            query: '%' + searchQuery + '%',
+        }
+        axios.post('http://localhost:8080/api/search', article)
+            .then(response => this.setState({
+                manga: response.data[0],
+                pages: Math.ceil(response.data[1][0].numResult / 25),
+            }));
     }
 
     render() {

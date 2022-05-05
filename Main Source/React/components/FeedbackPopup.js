@@ -26,7 +26,7 @@ class FeedbackPopup extends React.Component {
         return (
             <Modal show={this.props.show} onHide={this.onClickClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Modal heading</Modal.Title>
+                    <Modal.Title>Manga Feedback</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <FeedBack

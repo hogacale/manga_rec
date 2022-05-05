@@ -28,34 +28,49 @@ app.get('/api/manga/:id', function(req, res) {
 	// console.log("Request for manga id: " + req.params.id);
 });
 
-app.get('/api/search/', function(req, res) {
+app.post('/api/search/', function(req, res) {
     let offset = 0;
-    let limit = req.query.limit;
-    if(req.query.page !== undefined && req.query.page !== '0')
-        offset = (req.query.page - 1) * limit;
-    sql = "call search(?,?,?)";
-    sqlParams = [req.query.query,limit,offset]
+    let limit = req.body.limit;
+    const query = req.body.query;
+    if(req.body.page !== undefined && req.body.page !== '0')
+        offset = (req.body.page - 1) * limit;
+    let sql = "call search(?,?,?)";
+    let sqlParams = [query,limit,offset]
     // const sql = 'select title,id,pictureLink from manga where title like \'' + query + '\' limit ' + limit + ' offset ' + offset;
     // console.log(sql);
-
+    console.log("Searching page",req.body.page,"with query", query);
+    console.log(sql,sqlParams)
     con.query(sql,sqlParams,function (err,result) {
         if (err) throw err;
             // console.log(result);
-
+            console.log("Results:",JSON.stringify(result));
             res.send(JSON.stringify(result));
     })
 
-    // con.query('Select Title,id,pictureLink from manga where title like ? limit ? offset ?',
-    //     [
-    //         req.query.query,
-    //         parseInt(req.query.limit),
-    //         offset
-    //     ],
-    //     function (err,result) {
-    //     if (err) throw err;
-    //     res.send(JSON.stringify(result));
-    // });
-    // res.send("Searching with query " + req.query.query);
+});
+
+app.get('/api/genre/:genre', function(req, res) {
+    let sql = 'select * from manga where genre like ? order by rand() limit 10'
+    let genre = '%'+req.params.genre+'%'
+    con.query(sql, genre,function (err,result) {
+        if (err) throw err;
+        console.log(result);
+        res.send(result);
+    });
+    // res.send("id is set to " + req.params.id);
+// console.log("Request for manga id: " + req.params.id);
+});
+
+app.get('/api/theme/:theme', function(req, res) {
+    let sql = 'select * from manga where theme like ? order by rand() limit 10'
+    let theme = '%'+req.params.theme+'%'
+    con.query(sql, theme, function (err,result) {
+        if (err) throw err;
+        console.log(result);
+        res.send(result);
+    });
+    // res.send("id is set to " + req.params.id);
+// console.log("Request for manga id: " + req.params.id);
 });
 
 app.post('/api/manga/interest', function(req,res) {

@@ -1,0 +1,23 @@
+
+.infoh1 {
+        text-align: center;
+        text-decoration: underline;
+        padding: 20px;
+}
+.infoh4{
+    text-align: center;
+    padding: 20px;
+    display:inline; 
+}
+.infoimg{
+    height: 400px;
+    padding: 20px;
+}
+.infodiv{
+    padding: 20px;
+    text-align: center;
+}
+.infobody{
+    padding: 20px;
+    text-align: justify;
+}

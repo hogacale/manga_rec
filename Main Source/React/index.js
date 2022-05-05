@@ -8,6 +8,8 @@ import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import FilterTable from "./Filter";
 import SearchMangaTable from "./Search";
 import RecommendTable from './Recommender'
+import Manga_Info from "./Manga_Info";
+import Homepage from "./Homepage";
 
 const container = document.getElementById('root');
 const root = createRoot(container);
@@ -17,7 +19,9 @@ root.render(
     <Router>
         <Navbar />
         <Routes>
-            <Route path='/' element={<SearchMangaTable />} />
+            <Route exact path='/manga/:id' element={<Manga_Info/>} />
+            <Route path='/' element={<Homepage/>} />
+            <Route path='/search' element={<SearchMangaTable />} />
             <Route path='filter' element={<FilterTable />} />
             <Route path='recommend' element={<RecommendTable
                 filters="[[1,27691],[1946,2022],[1,6477],[false,false,false,false],[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false],[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false],[false,false,false,false,false],[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false],[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false],[false,false,false,false,false]]"

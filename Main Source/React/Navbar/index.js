@@ -8,13 +8,13 @@ export default function Navbar () {
             <div className="navigation">
                 <Nav className="navbar navbar-expand navbar-dark bg-dark">
                     <div className="container">
-                        <NavLink className="navbar-brand" to="/">
+                        <Link className="navbar-brand" to="/">
                             Manga Recommender
-                        </NavLink>
+                        </Link>
                         <div>
                             <ul className="navbar-nav ml-auto">
                                 <li className="nav-item">
-                                    <Link className="nav-link" to="/">
+                                    <Link className="nav-link" to="/Search">
                                         Search
                                     </Link>
                                 </li>
