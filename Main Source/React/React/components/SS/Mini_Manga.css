@@ -1,0 +1,31 @@
+.mangaimg{
+    width: 140px;
+    aspect-ratio: 17/25;
+}
+.mangadiv{
+    text-align: center;
+    width: min-content;
+    display: inline-block;
+    padding: 20px;
+
+}
+.mangathumb{
+    text-align: center;
+    width: 160;
+    display: inline-block;
+    padding: 20px;
+    border-style: solid;
+    border-width: thin;
+    border-color: black;
+    margin: 1px;
+}
+.mangah4{
+    text-align: center;
+    width: 140px;
+}
+.mangah2{
+    text-align: left;
+
+}
+.rowC{display:flex; flex-direction:row; padding: 0px;}
+.rowT{display:flex; flex-direction:row; border-style:hidden; justify-content:space-between;flex-wrap: wrap;}
